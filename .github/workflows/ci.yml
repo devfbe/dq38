@@ -13,8 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v31
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v32
       - name: Build dq38.efi and the USB image
         run: |
           nix build -L .#dq38 --out-link efi
@@ -25,7 +25,7 @@ jobs:
           (cd dist && sha256sum dq38.efi dq38-usb.img > SHA256SUMS)
       - name: QEMU self-test (fault injected on DQ38)
         run: nix flake check -L
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dq38
           path: dist/
@@ -37,7 +37,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dq38
           path: dist
